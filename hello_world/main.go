@@ -8,18 +8,22 @@ import "fmt"
 
 // Entry point
 func main() {
-	// Variable assignment
+	// Variable initialization
 	// Use snakeCase
 	// No semicolons!
-	helloString := "Hello world!"
+	helloString := "Hi"
+	// Variable assignment
+	helloString = "Hello world!"
 	helloWorld(helloString)
 
 	arraysAndSlices()
 }
 
-// Function parameter
+// Function and parameter(s)
 func helloWorld(helloString string) {
-	fmt.Println(helloString)
+	if len(helloString) > 0 {
+		fmt.Println(helloString)
+	}
 
 	/*
 		Go by Example references:
@@ -40,6 +44,7 @@ func arraysAndSlices() {
 	fmt.Println()
 
 	// Heap allocated slice (dynamic size!)
+	// Slice = list
 	stringSlice := make([]string, 0)
 	stringSlice = append(stringSlice, "a")
 	stringSlice = append(stringSlice, "b")
@@ -57,5 +62,3 @@ func arraysAndSlices() {
 		https://gobyexample.com/range
 	*/
 }
-
-// Syntax-wise, which two languages is Go similar to?

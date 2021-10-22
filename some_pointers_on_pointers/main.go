@@ -9,6 +9,7 @@ func main() {
 
 	// myNewNumber is garbage collected
 	// What happens if you returned a pointer in C++?
+	//
 	// https://gobyexample.com/pointers
 }
 
@@ -19,5 +20,6 @@ func thisFunctionReturns20(number *int) *int {
 	fmt.Println(*number)
 	returnValue := 20
 	return &returnValue
-	// Return value might be moved to the heap because returnValue is no longer in the stack
+	// returnValue might be allocated on the heap because variables in the stack are deallocated
+	// after the function exits
 }

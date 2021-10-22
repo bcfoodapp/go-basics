@@ -4,9 +4,12 @@ package main
 //   go get github.com/go-sql-driver/mysql
 // Add the package path to the import section
 
-import (
-	"database/sql"
-)
+// What changed to the files go.mod and go.sum?
+// go.mod:
+// go.sum:
+// (You should commit both files to Git)
+
+import "database/sql"
 
 func main() {
 	config := mysql.NewConfig()

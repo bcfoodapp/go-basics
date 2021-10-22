@@ -1,5 +1,7 @@
 package main
 
+import "fmt"
+
 // This is a struct
 type FoodTruck struct {
 	// This is a field
@@ -12,32 +14,33 @@ func (p *FoodTruck) IsOpen() bool {
 	return p.openToday
 }
 
+// What is an alternative way to pass the FoodTruck struct to our method?
+
 // This is a "constructor" because the name starts with "new"
 // There is no formal definition of a constructor in Go
-func NewFoodTruck(foodTruckName string) FoodTruck {
+func NewFoodTruck(foodTruckName string) *FoodTruck {
 	// Struct initialization
-	return FoodTruck{
+	return &FoodTruck{
 		name:      foodTruckName,
 		openToday: true,
 	}
 }
 
-// Interfaces for composition relationships
+// Interfaces for composition relationships (Not object inheritance)
+// An interface is a set of required methods
 type Vendor interface {
-	SetName(name string)
+	GetName() string
 }
 
 func main() {
 	// Zero initialization (creates a nil pointer in this case)
-	var w Vendor
+	var vendor Vendor
 
-	// Initializes FoodTruck, takes its pointer address, and stores it as a Vendor value
-	// Why does it say "Type does not implement 'Vendor'"?
-	w = &FoodTruck{
-		name:      "",
-		openToday: true,
-	}
-	w.SetName("El Jefe")
+	// Check the compiler error: go run ./structs_and_interfaces
+	vendor = NewFoodTruck("El Jefe")
+	fmt.Println(vendor.GetName())
+
+	// Run debugger after the error is fixed to see how the variables change
 }
 
 /*
