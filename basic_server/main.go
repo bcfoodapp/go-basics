@@ -29,7 +29,7 @@ func main() {
 	// Don't forget to defer the Close
 	defer server.Close()
 
-	fmt.Println("Go to http://localhost:8000/ to see the output from the server!")
+	fmt.Println("Open http://localhost:8000/ in your web browser to see the output from the server!")
 
 	if err := server.ListenAndServe(); err != nil {
 		log.Panic(err)
@@ -45,9 +45,12 @@ func addRoutes(router *mux.Router) {
 	}
 
 	// Define paths and their handler functions
+	// Path is relative to the root path.
+	// So if you want to access /vendors/, the URL is http://localhost:8000/vendors/
 	routes := [...]route{
 		{"/", root},
 		{"/vendors/", backend.vendors},
+		// {id} matches any string. You can get the string that was in {id} with mux.Vars().
 		{"/vendors/{id}", backend.vendor},
 	}
 
@@ -105,7 +108,7 @@ func (b *Backend) vendors(w http.ResponseWriter, _ *http.Request) {
 // vendor is the handler for /vendors/{id}. It returns a vendor if given id matches a vendor, or
 // otherwise returns StatusNotFound (404).
 func (b *Backend) vendor(w http.ResponseWriter, r *http.Request) {
-	id := mux.Vars(r)["id"]
+	id := mux.Vars(r)["id"] // Retrieves id value from path
 	for _, vendor := range b.Vendors {
 		if vendor.ID == id {
 			writeJSON(w, &vendor)
