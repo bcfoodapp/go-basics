@@ -15,6 +15,13 @@ func (p *FoodTruck) IsOpen() bool {
 }
 
 // What is an alternative way to pass the FoodTruck struct to our method?
+//func IsOpen(p *FoodTruck) bool {
+//	return p.openToday
+//}
+
+func (p *FoodTruck) GetName() string {
+	return p.name
+}
 
 // This is a "constructor" because the name starts with "new"
 // There is no formal definition of a constructor in Go

@@ -9,7 +9,7 @@ func main() {
 
 	// myNewNumber is garbage collected
 	// What happens if you returned a pointer in C++?
-	//
+	// Undefined behavior (dangling pointer) or memory leak
 	// https://gobyexample.com/pointers
 }
 

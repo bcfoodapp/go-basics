@@ -5,11 +5,14 @@ package main
 // Add the package path to the import section
 
 // What changed to the files go.mod and go.sum?
-// go.mod:
-// go.sum:
+// go.mod: Package name and version number
+// go.sum: Package name, version number, and file hash
 // (You should commit both files to Git)
 
-import "database/sql"
+import (
+	"database/sql"
+	"github.com/go-sql-driver/mysql"
+)
 
 func main() {
 	config := mysql.NewConfig()
@@ -19,7 +22,7 @@ func main() {
 
 	// sql.Open() returns (*DB, error)
 	db, err := sql.Open("mysql", config.FormatDSN())
-	if err != nil { // If err is not null, an error occurred
+	if err != nil { // If err is not nil, an error occurred
 		panic(err)
 	}
 	defer db.Close() // Deferred calls are run at end of function; useful for cleanup functions
