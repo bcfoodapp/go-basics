@@ -93,10 +93,9 @@ func writeJSON(w http.ResponseWriter, payload interface{}) {
 	w.Header().Add("Content-Type", "application/json")
 
 	// Since ResponseWriter is a Writer, we can pass the ResponseWriter to NewEncoder.
-	// We check for errors in encoding. If an error occurred, we write the error into the response.
 	if err := json.NewEncoder(w).Encode(payload); err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
-		json.NewEncoder(w).Encode(err.Error())
+		// Encoding should not fail unless there is a bug
+		log.Panic(err)
 	}
 }
 
