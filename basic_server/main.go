@@ -37,7 +37,7 @@ func main() {
 }
 
 func addRoutes(router *mux.Router) {
-	backend := NewBackend()
+	api := NewAPI()
 
 	type route struct {
 		path    string
@@ -49,9 +49,9 @@ func addRoutes(router *mux.Router) {
 	// So if you want to access /vendors/, the URL is http://localhost:8000/vendors/
 	routes := [...]route{
 		{"/", root},
-		{"/vendors/", backend.vendors},
+		{"/vendors/", api.vendors},
 		// {id} matches any string. You can get the string that was in {id} with mux.Vars().
-		{"/vendors/{id}", backend.vendor},
+		{"/vendors/{id}", api.vendor},
 	}
 
 	// For each route, register the path and its handler. We set them to only respond to GET
@@ -61,19 +61,19 @@ func addRoutes(router *mux.Router) {
 	}
 }
 
-// Backend stores any server state such as databases.
-type Backend struct {
+// API stores any server state such as databases.
+type API struct {
 	// In reality, you would store a database connection here
 	Vendors []Vendor
 }
 
-func NewBackend() *Backend {
+func NewAPI() *API {
 	vendors := make([]Vendor, 1)
 	vendors[0] = Vendor{
 		ID:   "cycledogs",
 		Name: "Cycle Dogs",
 	}
-	return &Backend{vendors}
+	return &API{vendors}
 }
 
 func root(w http.ResponseWriter, _ *http.Request) {
@@ -100,13 +100,13 @@ func writeJSON(w http.ResponseWriter, payload interface{}) {
 }
 
 // vendors is the handler for /vendors/. It returns an array of all Vendors.
-func (b *Backend) vendors(w http.ResponseWriter, _ *http.Request) {
+func (b *API) vendors(w http.ResponseWriter, _ *http.Request) {
 	writeJSON(w, &b.Vendors)
 }
 
 // vendor is the handler for /vendors/{id}. It returns a vendor if given id matches a vendor, or
 // otherwise returns StatusNotFound (404).
-func (b *Backend) vendor(w http.ResponseWriter, r *http.Request) {
+func (b *API) vendor(w http.ResponseWriter, r *http.Request) {
 	id := mux.Vars(r)["id"] // Retrieves id value from path
 	for _, vendor := range b.Vendors {
 		if vendor.ID == id {

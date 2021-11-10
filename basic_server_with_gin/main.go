@@ -9,10 +9,10 @@ import (
 
 func main() {
 	router := gin.Default()
-	backend := NewBackend()
+	api := NewAPI()
 	router.GET("/", root)
-	router.GET("/vendors/", backend.vendors)
-	router.GET("/vendors/:id", backend.vendor)
+	router.GET("/vendors/", api.vendors)
+	router.GET("/vendors/:id", api.vendor)
 
 	server := http.Server{
 		Addr:         ":8000",
@@ -36,24 +36,24 @@ type Vendor struct {
 	Name string
 }
 
-type Backend struct {
+type API struct {
 	Vendors []Vendor
 }
 
-func NewBackend() *Backend {
+func NewAPI() *API {
 	vendors := make([]Vendor, 1)
 	vendors[0] = Vendor{
 		ID:   "cycledogs",
 		Name: "Cycle Dogs",
 	}
-	return &Backend{vendors}
+	return &API{vendors}
 }
 
-func (b *Backend) vendors(c *gin.Context) {
+func (b *API) vendors(c *gin.Context) {
 	c.JSON(http.StatusOK, &b.Vendors)
 }
 
-func (b *Backend) vendor(c *gin.Context) {
+func (b *API) vendor(c *gin.Context) {
 	id := c.Param("id")
 	for _, vendor := range b.Vendors {
 		if vendor.ID == id {
